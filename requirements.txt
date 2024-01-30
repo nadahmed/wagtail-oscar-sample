@@ -1,0 +1,2 @@
+django-oscar[sorl-thumbnail]==3.2.2
+pycountry==23.12.11
