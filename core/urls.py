@@ -18,21 +18,28 @@ from django.apps import apps
 from django.urls import include, path
 from django.contrib import admin
 
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 
     # The Django admin is not officially supported; expect breakage.
     # Nonetheless, it's often useful for debugging.
 
-    path('admin/', admin.site.urls),
 
-    path('', include(apps.get_app_config('oscar').urls[0])),
+    path('cms/', include(wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),
+    path('', include(apps.get_app_config('oscar').urls[0][1:])),
+    path('', include(wagtail_urls)),
 ]
 
 from django.conf import settings
+
 if settings.DEBUG:
-    import django.views.static
-    urlpatterns += [
-        path('media/<path:path>', django.views.static.serve,
-             {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-    ]
+    from django.conf.urls.static import static
+
+    urlpatterns = [
+        path('django-admin/', admin.site.urls),
+    ]+urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

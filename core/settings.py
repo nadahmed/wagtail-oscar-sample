@@ -31,6 +31,23 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+WAGTAIL_APPS = [
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
+
+    'modelcluster',
+    'taggit',
+]
+
 OSCAR_APPS = [
     'oscar.config.Shop',
     'oscar.apps.analytics.apps.AnalyticsConfig',
@@ -62,15 +79,14 @@ OSCAR_APPS = [
     'oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig',
     'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
-]
-
-THIRD_PARTY_APPS = [
     'widget_tweaks',
     'haystack',
     'treebeard',
     'sorl.thumbnail',   # Default thumbnail backend, can be replaced
     'django_tables2',
 ]
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -81,7 +97,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-] + THIRD_PARTY_APPS + OSCAR_APPS
+] + WAGTAIL_APPS + OSCAR_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -92,6 +108,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oscar.apps.basket.middleware.BasketMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
@@ -184,15 +201,17 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
-    },
-}
+# WAGTAIL SETTINGS
 
-OSCAR_SHOP_NAME="Interrex Shop"
+WAGTAIL_SITE_NAME = 'Interrex Shop'
+WAGTAILADMIN_BASE_URL = '/admin/'
+WAGTAIL_ENABLE_WHATS_NEW_BANNER = False
+WAGTAIL_ENABLE_UPDATE_CHECK = False
+
+# OSCAR SETTINGS
+
+OSCAR_SHOP_NAME=WAGTAIL_SITE_NAME
 OSCAR_SHOP_TAGLINE="Stop, Shop & Save"
-
 OSCAR_DEFAULT_CURRENCY="BDT"
 OSCAR_CURRENCY_FORMAT = {
     'BDT': {
@@ -209,4 +228,20 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Pending': ('Being processed', 'Cancelled',),
     'Being processed': ('Processed', 'Cancelled',),
     'Cancelled': (),
+}
+
+OSCAR_HOMEPAGE=None
+OSCAR_MODERATE_REVIEWS = False
+
+OSCAR_DASHBOARD_NAVIGATION.insert(1, {
+    'label': 'CMS',
+    'icon': 'fa-solid fa-pen-nib',
+    'url_name': 'wagtailadmin_home',
+    'access_fn': lambda user, *args: user.has_perm('wagtailadmin.access_admin')
+})
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
 }
