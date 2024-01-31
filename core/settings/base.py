@@ -11,20 +11,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 from oscar.defaults import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+eje+3^e%u*p1z!-86m)8n@b$thx359hj^bfr%1wd*-^ev4$)1'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -144,18 +139,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'ATOMIC_REQUESTS': True,
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -204,7 +187,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # WAGTAIL SETTINGS
 
 WAGTAIL_SITE_NAME = 'Interrex Shop'
-WAGTAILADMIN_BASE_URL = '/admin/'
+WAGTAILADMIN_BASE_URL = '/cms/'
 WAGTAIL_ENABLE_WHATS_NEW_BANNER = False
 WAGTAIL_ENABLE_UPDATE_CHECK = False
 
@@ -230,15 +213,21 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Cancelled': (),
 }
 
-OSCAR_HOMEPAGE=None
 OSCAR_MODERATE_REVIEWS = False
 
-OSCAR_DASHBOARD_NAVIGATION.insert(1, {
-    'label': 'CMS',
+OSCAR_DASHBOARD_NAVIGATION[5]["children"][0] = {
+    'label': _('CMS'),
     'icon': 'fa-solid fa-pen-nib',
     'url_name': 'wagtailadmin_home',
     'access_fn': lambda user, *args: user.has_perm('wagtailadmin.access_admin')
-})
+}
+
+# OSCAR_DASHBOARD_NAVIGATION.insert(1, {
+#     'label': _('CMS'),
+#     'icon': 'fa-solid fa-pen-nib',
+#     'url_name': 'wagtailadmin_home',
+#     'access_fn': lambda user, *args: user.has_perm('wagtailadmin.access_admin')
+# })
 
 HAYSTACK_CONNECTIONS = {
     'default': {
