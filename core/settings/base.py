@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from oscar.defaults import *
@@ -187,7 +187,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # WAGTAIL SETTINGS
 
-WAGTAIL_SITE_NAME = 'Interrex Shop'
+WAGTAIL_SITE_NAME = os.environ.get('SITE_NAME', 'Wagtail Site')
 WAGTAILADMIN_BASE_URL = '/cms/'
 WAGTAIL_ENABLE_WHATS_NEW_BANNER = False
 WAGTAIL_ENABLE_UPDATE_CHECK = False
@@ -195,7 +195,8 @@ WAGTAIL_ENABLE_UPDATE_CHECK = False
 # OSCAR SETTINGS
 
 OSCAR_SHOP_NAME=WAGTAIL_SITE_NAME
-OSCAR_SHOP_TAGLINE="Stop, Shop & Save"
+OSCAR_SHOP_TAGLINE=os.environ.get('SITE_TAGLINE', '')
+
 OSCAR_DEFAULT_CURRENCY="BDT"
 OSCAR_CURRENCY_FORMAT = {
     'BDT': {
@@ -216,19 +217,12 @@ OSCAR_ORDER_STATUS_PIPELINE = {
 
 OSCAR_MODERATE_REVIEWS = False
 
-OSCAR_DASHBOARD_NAVIGATION[5]["children"][0] = {
-    'label': _('CMS'),
-    'icon': 'fa-solid fa-pen-nib',
+OSCAR_DASHBOARD_NAVIGATION.extend([{
+    'label': _('CMS Dashboard'),
+    'icon': 'fa-solid fa-arrow-up-right-from-square',
     'url_name': 'wagtailadmin_home',
     'access_fn': lambda user, *args: user.has_perm('wagtailadmin.access_admin')
-}
-
-# OSCAR_DASHBOARD_NAVIGATION.insert(1, {
-#     'label': _('CMS'),
-#     'icon': 'fa-solid fa-pen-nib',
-#     'url_name': 'wagtailadmin_home',
-#     'access_fn': lambda user, *args: user.has_perm('wagtailadmin.access_admin')
-# })
+}])
 
 HAYSTACK_CONNECTIONS = {
     'default': {

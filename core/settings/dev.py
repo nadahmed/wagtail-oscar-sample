@@ -1,4 +1,7 @@
 from .base import *
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-+eje+3^e%u*p1z!-86m)8n@b$thx359hj^bfr%1wd*-^ev4$)1'
@@ -7,6 +10,10 @@ SECRET_KEY = 'django-insecure-+eje+3^e%u*p1z!-86m)8n@b$thx359hj^bfr%1wd*-^ev4$)1
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+INSTALLED_APPS += [
+    'wagtail.contrib.styleguide',
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

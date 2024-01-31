@@ -31,7 +31,7 @@ urlpatterns = [
 
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-    path('', include(apps.get_app_config('oscar').urls[0][1:])),
+    path('shop/', include(apps.get_app_config('oscar').urls[0])),
     path('', include(wagtail_urls)),
 ]
 

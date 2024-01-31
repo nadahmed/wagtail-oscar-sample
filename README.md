@@ -41,7 +41,7 @@ python manage.py migrate
 
 * Populate countries.
     
-    Omit <code>--no-shipping</code> to enable shipping for all countries.
+    Omit ```--no-shipping``` to enable shipping for all countries.
 
     ```
     python manage.py oscar_populate_countries --no-shipping
@@ -54,3 +54,8 @@ python manage.py migrate
     ```
     python manage.py createsuperuser
     ```
+
+# Environment Variables
+
+* SITE_NAME(default: "Wagtail Site")
+* SITE_TAGLINE (default: "")
