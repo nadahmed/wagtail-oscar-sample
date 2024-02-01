@@ -1,21 +1,30 @@
 {% extends "shop_base.html" %}
-{% load static %}
+{% load category_tags %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% block shop_content %}
+<!-- Product Catagories Area Start -->
+<div class="products-catagories-area clearfix">
+    <div class="amado-pro-catagory clearfix">
 
-{% block extra_css%}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'home/css/welcome_page.css' %}">
-{% endblock extra_css %}
-
-{% block content %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
-
-{% endblock content %}
+        {% category_tree as tree_categories %}
+        {% if tree_categories %}
+        {% for tree_category in tree_categories %}
+        <!-- Single Catagory -->
+        <div class="single-products-catagory clearfix">
+            <a href="{{ tree_category.url }}">
+                <img src="{{ tree_category.image.url }}" alt="">
+                {% comment %} <img src="{% static 'theme/img/bg-img/1.jpg' %}" alt=""> {% endcomment %}
+                <!-- Hover Content -->
+                <div class="hover-content">
+                    <div class="line"></div>
+                    {% comment %} <p>From $180</p> {% endcomment %}
+                    <h4>{{ tree_category.name }}</h4>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!-- Product Catagories Area End -->
+{% endblock %}

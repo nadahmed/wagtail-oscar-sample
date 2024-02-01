@@ -731,7 +731,7 @@ img {
                     th {
                         border-top: none;
                         border-bottom: none;
-                        @include flex(0 0 25%);
+                        @include flex(0 0 20%);
                         width: 25%;
                         max-width: 25%;
                         font-size: 12px;
@@ -750,7 +750,7 @@ img {
                     width: 100%;
                     td {
                         border: none;
-                        @include flex(0 0 25%);
+                        @include flex(0 0 20%);
                         width: 25%;
                         max-width: 25%;
                         h5 {

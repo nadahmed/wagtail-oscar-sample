@@ -4,5 +4,21 @@
     },
     "emmet.includeLanguages": {
         "django-html": "html"
-    }
+    },
+    "liveSassCompile.settings.excludeList": [ 
+        "**/node_modules/**",
+        ".vscode/**" 
+    ],
+    "liveSassCompile.settings.formats": [
+        {
+            "format": "expanded",
+            "extensionName": ".css",
+            "savePath": "~/../css"
+        }
+    ],
+    "liveSassCompile.settings.showOutputWindowOn": "Error",
+    "liveSassCompile.settings.autoprefix": [
+        "> 1%",
+        "last 2 versions"
+    ]
 }
